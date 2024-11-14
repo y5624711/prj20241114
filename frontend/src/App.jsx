@@ -3,6 +3,7 @@ import { BoardAdd } from "./page/board/BoardAdd.jsx";
 import { BordList } from "./page/board/BordList.jsx";
 import { RootLayout } from "./page/root/RootLayout.jsx";
 import { BoardView } from "./page/board/BoardView.jsx";
+import { BoardEdit } from "./page/board/BoardEdit.jsx";
 
 const router = createBrowserRouter([
   {
@@ -14,6 +15,10 @@ const router = createBrowserRouter([
       {
         path: "view/:id",
         element: <BoardView />,
+      },
+      {
+        path: "edit/:id",
+        element: <BoardEdit />,
       },
     ],
   },
