@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Table } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -15,12 +15,26 @@ export function BordList() {
   return (
     <Box>
       <h3>게시물 목록</h3>
-      {/* 게시물들을 테이블로*/}
-      {boardList.map((board) => (
-        <li>
-          {board.title},{board.writer}
-        </li>
-      ))}
+      <Table.Root interactive>
+        <Table.Header>
+          <Table.Row>
+            <Table.ColumnHeader>번호</Table.ColumnHeader>
+            <Table.ColumnHeader>제목</Table.ColumnHeader>
+            <Table.ColumnHeader>작성자</Table.ColumnHeader>
+            <Table.ColumnHeader textAlign="end">작성일시</Table.ColumnHeader>
+          </Table.Row>
+        </Table.Header>
+        <Table.Body>
+          {boardList.map((board) => (
+            <Table.Row ket={board.id}>
+              <Table.Cell>{board.id}</Table.Cell>
+              <Table.Cell>{board.title}</Table.Cell>
+              <Table.Cell>{board.writer}</Table.Cell>
+              <Table.Cell textAlign="end">{board.inserted}</Table.Cell>
+            </Table.Row>
+          ))}
+        </Table.Body>
+      </Table.Root>
     </Box>
   );
 }
