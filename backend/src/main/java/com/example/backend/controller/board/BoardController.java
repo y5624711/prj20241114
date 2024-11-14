@@ -17,6 +17,7 @@ public class BoardController {
 
     @PostMapping("add")
     public ResponseEntity<Map<String, Object>> add(@RequestBody Board board) {
+        
         if (service.add(board)) {
             return ResponseEntity.ok()
                     .body(Map.of("message",
