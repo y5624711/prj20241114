@@ -21,7 +21,7 @@ public class BoardService {
         if (cnt == 1) {
             return Map.of("message",
                     Map.of("type", "success", "text",
-                            board.getId() + "번 게시믈이 등록되었습니다."));
+                            board.getId() + "번 게시믈이 등록되었습니다."), "data", board);
         }
         return null;
     }
