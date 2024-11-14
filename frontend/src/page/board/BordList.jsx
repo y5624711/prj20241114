@@ -26,7 +26,7 @@ export function BordList() {
         </Table.Header>
         <Table.Body>
           {boardList.map((board) => (
-            <Table.Row ket={board.id}>
+            <Table.Row key={board.id}>
               <Table.Cell>{board.id}</Table.Cell>
               <Table.Cell>{board.title}</Table.Cell>
               <Table.Cell>{board.writer}</Table.Cell>
