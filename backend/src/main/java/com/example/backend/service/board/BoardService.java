@@ -22,8 +22,9 @@ public class BoardService {
             return Map.of("message",
                     Map.of("type", "success", "text",
                             board.getId() + "번 게시믈이 등록되었습니다."), "data", board);
+        } else {
+            return null;
         }
-        return null;
     }
 
     public List<Board> list() {
