@@ -45,4 +45,9 @@ public class BoardController {
     public Board view(@PathVariable int id) {
         return service.get(id);
     }
+
+    @DeleteMapping("delete/{id}")
+    public void delete(@PathVariable int id) {
+        service.remove(id);
+    }
 }

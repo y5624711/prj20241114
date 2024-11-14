@@ -33,4 +33,8 @@ public class BoardService {
         boolean content = board.getContent().trim().length() > 0;
         return title && content;
     }
+
+    public void remove(int id) {
+        mapper.deleteById(id);
+    }
 }
