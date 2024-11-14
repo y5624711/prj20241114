@@ -45,6 +45,8 @@ export function BoardAdd() {
         setProgress(false);
       });
   };
+  const disabled = !(title.trim().length > 0 && content.trim().length > 0);
+
   return (
     <Box>
       <h3>게시물 작성</h3>
@@ -62,7 +64,11 @@ export function BoardAdd() {
           <Input value={writer} onChange={(e) => setWriter(e.target.value)} />
         </Field>
         <Box>
-          <Button loading={progress} onClick={handleSaveClick}>
+          <Button
+            disabled={disabled}
+            loading={progress}
+            onClick={handleSaveClick}
+          >
             저장
           </Button>
         </Box>
