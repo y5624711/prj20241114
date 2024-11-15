@@ -9,35 +9,36 @@ import java.util.List;
 public interface BoardMapper {
     @Insert("""
             INSERT INTO board
-            (title,content,writer)
-            VALUES (#{title},#{content},#{writer})
+            (title, content, writer)
+            VALUES (#{title}, #{content}, #{writer})
             """)
     @Options(keyProperty = "id", useGeneratedKeys = true)
     int insert(Board board);
 
     @Select("""
-            SELECT id,title,writer,inserted
+            SELECT id, title, writer, inserted
             FROM board
-            ORDER BY id desc;
+            ORDER BY id DESC
             """)
     List<Board> selectAll();
 
     @Select("""
             SELECT *
             FROM board
-            WHERE id=#{id};
+            WHERE id = #{id}
             """)
     Board selectById(int id);
 
     @Delete("""
             DELETE FROM board
-            WHERE id=#{id}
+            WHERE id = #{id}
             """)
     int deleteById(int id);
 
+
     @Update("""
             UPDATE board
-            SET title=#{title},
+            SET title=#{title}, 
                 content=#{content}
             WHERE id=#{id}
             """)
@@ -45,37 +46,37 @@ public interface BoardMapper {
 
     @Select("""
             <script>
-                SELECT id,title,writer,inserted
+                SELECT id, title, writer, inserted
                 FROM board
-                WHERE
+                WHERE 
                     <trim prefixOverrides="OR">
                         <if test="searchType == 'all' or searchType == 'title'">
-                            title LIKE CONCAT('%',#{keyword},'%')
+                            title LIKE CONCAT('%', #{keyword}, '%')
                         </if>
                         <if test="searchType == 'all' or searchType == 'content'">
-                            OR content LIKE CONCAT('%',#{keyword},'%')
+                         OR content LIKE CONCAT('%', #{keyword}, '%')
                         </if>
                     </trim>
-            ORDER BY id desc
-            LIMIT #{offset}, 10
+            
+                ORDER BY id DESC
+                LIMIT #{offset}, 10
             </script>
             """)
     List<Board> selectPage(Integer offset, String searchType, String keyword);
 
     @Select("""
-            <script>            
-                    SELECT COUNT(*)
-                    FROM board
-                    WHERE
-                            <trim prefixOverrides="OR">
-                                <if test="searchType == 'all' or searchType == 'title'">
-                                    title LIKE CONCAT('%',#{keyword},'%')
-                                   </if>
-                                    <if test="searchType == 'all' or searchType == 'content'">
-                                    OR content LIKE CONCAT('%',#{keyword},'%')
-                                </if>
-                            </trim>
-                </script>
+            <script>
+            SELECT COUNT(*) FROM board
+            WHERE 
+                <trim prefixOverrides="OR">
+                    <if test="searchType == 'all' or searchType == 'title'">
+                        title LIKE CONCAT('%', #{keyword}, '%')
+                    </if>
+                    <if test="searchType == 'all' or searchType == 'content'">
+                     OR content LIKE CONCAT('%', #{keyword}, '%')
+                    </if>
+                </trim>
+            </script>
             """)
     Integer countAll(String searchType, String keyword);
 }

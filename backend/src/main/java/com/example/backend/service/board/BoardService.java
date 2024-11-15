@@ -13,33 +13,39 @@ import java.util.Map;
 @Transactional
 @RequiredArgsConstructor
 public class BoardService {
+
     final BoardMapper mapper;
 
     public boolean add(Board board) {
         int cnt = mapper.insert(board);
 
         return cnt == 1;
+
     }
 
     public Map<String, Object> list(Integer page, String searchType, String keyword) {
-        //SQL의 LIMIT 키워드에서 사용되는 offset
+        // SQL 의 LIMIT 키워드에서 사용되는 offset
         Integer offset = (page - 1) * 10;
-        //조회되는 게시물들
+
+        // 조회되는 게시물들
         List<Board> list = mapper.selectPage(offset, searchType, keyword);
-        //전체 게시물 수
+
+        // 전체 게시물 수
         Integer count = mapper.countAll(searchType, keyword);
 
-        return Map.of("list", list, "count", count);
+        return Map.of("list", list,
+                "count", count);
+
     }
 
     public Board get(int id) {
         return mapper.selectById(id);
     }
 
-    //내용이 입력되었는지 확인
     public boolean validate(Board board) {
         boolean title = board.getTitle().trim().length() > 0;
         boolean content = board.getContent().trim().length() > 0;
+
         return title && content;
     }
 

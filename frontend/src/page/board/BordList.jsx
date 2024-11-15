@@ -16,27 +16,16 @@ import { Button } from "../../components/ui/button.jsx";
 
 export function BordList() {
   const [boardList, setBoardList] = useState([]);
-  const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
   const [count, setCount] = useState(0);
+  const [searchParams, setSearchParams] = useSearchParams();
   const [search, setSearch] = useState({
-    type: searchParams.get("st") ?? "all",
-    keyword: searchParams.get("sk") ?? "",
+    type: "all",
+    keyword: "",
   });
-
-  //searchParams
-  console.log(searchParams.toString());
-  //검색조건
-  console.log("검색조건", search);
-
-  //page번호 얻기
-  const pageParam = searchParams.get("page") ? searchParams.get("page") : "1";
-  const page = Number(pageParam);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // CleanUp : 이전 페이지 요청 취소하고 현재 페이지로 다시 업데이트
     const controller = new AbortController();
-
     axios
       .get("/api/board/list", {
         params: searchParams,
@@ -48,11 +37,38 @@ export function BordList() {
         setCount(data.count);
       });
 
-    // CleanUp : 이전 페이지 요청 취소하고 현재 페이지로 다시 업데이트
     return () => {
       controller.abort();
     };
   }, [searchParams]);
+
+  useEffect(() => {
+    const nextSearch = { ...search };
+
+    if (searchParams.get("st")) {
+      nextSearch.type = searchParams.get("st");
+    } else {
+      nextSearch.type = "all";
+    }
+
+    if (searchParams.get("sk")) {
+      nextSearch.keyword = searchParams.get("sk");
+    } else {
+      nextSearch.keyword = "";
+    }
+
+    setSearch(nextSearch);
+  }, [searchParams]);
+
+  // searchParams
+  console.log(searchParams.toString());
+
+  // 검색 조건
+  console.log("검색조건", search);
+
+  // page 번호
+  const pageParam = searchParams.get("page") ? searchParams.get("page") : "1";
+  const page = Number(pageParam);
 
   function handleRowClick(id) {
     navigate(`/view/${id}`);
@@ -67,7 +83,7 @@ export function BordList() {
 
   function handleSearchClick() {
     if (search.keyword.trim().length > 0) {
-      //검색
+      // 검색
       const nextSearchParam = new URLSearchParams(searchParams);
       nextSearchParam.set("st", search.type);
       nextSearchParam.set("sk", search.keyword);
@@ -75,7 +91,7 @@ export function BordList() {
 
       setSearchParams(nextSearchParam);
     } else {
-      //검색 안함
+      // 검색 안함
       const nextSearchParam = new URLSearchParams(searchParams);
       nextSearchParam.delete("st");
       nextSearchParam.delete("sk");
@@ -114,28 +130,27 @@ export function BordList() {
       ) : (
         <p>조회된 결과가 없습니다.</p>
       )}
-      <Box>
-        <HStack>
-          <NativeSelectRoot
-            onChange={(e) => setSearch({ ...search, type: e.target.value })}
-          >
-            <NativeSelectField
-              items={[
-                { label: "전체", value: "all" },
-                { label: "제목", value: "title" },
-                { label: "본문", value: "content" },
-              ]}
-            />
-          </NativeSelectRoot>
-          <Input
-            value={search.keyword}
-            onChange={(e) =>
-              setSearch({ ...search, keyword: e.target.value.trim() })
-            }
+
+      <HStack>
+        <NativeSelectRoot
+          onChange={(e) => setSearch({ ...search, type: e.target.value })}
+        >
+          <NativeSelectField
+            items={[
+              { label: "전체", value: "all" },
+              { label: "제목", value: "title" },
+              { label: "본문", value: "content" },
+            ]}
           />
-          <Button onClick={handleSearchClick}>검색</Button>
-        </HStack>
-      </Box>
+        </NativeSelectRoot>
+        <Input
+          value={search.keyword}
+          onChange={(e) =>
+            setSearch({ ...search, keyword: e.target.value.trim() })
+          }
+        />
+        <Button onClick={handleSearchClick}>검색</Button>
+      </HStack>
 
       <PaginationRoot
         onPageChange={handlePageChange}
