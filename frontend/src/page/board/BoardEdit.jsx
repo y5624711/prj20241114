@@ -28,10 +28,6 @@ export function BoardEdit() {
     axios.get(`/api/board/view/${id}`).then((res) => setBoard(res.data));
   }, []);
 
-  if (board === null) {
-    return <Spinner />;
-  }
-
   const handleSaveClick = () => {
     setProgress(true);
     axios
@@ -57,6 +53,15 @@ export function BoardEdit() {
       });
   };
 
+  if (board === null) {
+    return <Spinner />;
+  }
+
+  //제목이나 본문이 비어있는지 확인
+  const disabled = !(
+    board.title.trim().length > 0 && board.content.trim().length > 0
+  );
+
   return (
     <Box>
       <h3>{id}번 게시물 수정</h3>
@@ -79,7 +84,11 @@ export function BoardEdit() {
           onOpenChange={(e) => setDialogOpen(e.open)}
         >
           <DialogTrigger asChild>
-            <Button colorPalette={"cyan"} variant={"outline"}>
+            <Button
+              disabled={disabled}
+              colorPalette={"cyan"}
+              variant={"outline"}
+            >
               저장
             </Button>
           </DialogTrigger>
