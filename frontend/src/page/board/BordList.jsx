@@ -19,7 +19,10 @@ export function BordList() {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [count, setCount] = useState(0);
-  const [search, setSearch] = useState({ type: "all", keyword: "" });
+  const [search, setSearch] = useState({
+    type: searchParams.get("st") ?? "all",
+    keyword: searchParams.get("sk") ?? "",
+  });
 
   //searchParams
   console.log(searchParams.toString());
