@@ -3,6 +3,7 @@ import { Field } from "../../components/ui/field.jsx";
 import { Button } from "../../components/ui/button.jsx";
 import { useState } from "react";
 import axios from "axios";
+import { toaster } from "../../components/ui/toaster.jsx";
 
 export function MemberSignup() {
   const [id, setId] = useState("");
@@ -13,10 +14,20 @@ export function MemberSignup() {
     axios
       .post("/api/member/signup", { id, password, description })
       .then((res) => {
-        console.log("잘됨");
+        const message = res.data.message;
+        console.log("잘됌");
+        toaster.create({
+          type: message.type,
+          description: message.text,
+        });
       })
       .catch((e) => {
         console.log("안됐을 때");
+        const message = e.response.data.message;
+        toaster.create({
+          type: message.type,
+          description: message.text,
+        });
       })
       .finally(() => {
         console.log("실패 성공 상관없음");
