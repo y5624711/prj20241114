@@ -113,7 +113,7 @@ export function BordList() {
               items={[
                 { label: "전체", value: "all" },
                 { label: "제목", value: "title" },
-                { label: "전체", value: "content" },
+                { label: "본문", value: "content" },
               ]}
             />
           </NativeSelectRoot>
@@ -136,9 +136,7 @@ export function BordList() {
       >
         <HStack>
           <PaginationPrevTrigger />
-
           <PaginationItems />
-
           <PaginationNextTrigger />
         </HStack>
       </PaginationRoot>

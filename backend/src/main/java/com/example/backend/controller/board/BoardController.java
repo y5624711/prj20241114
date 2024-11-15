@@ -44,7 +44,7 @@ public class BoardController {
         System.out.println("searchType = " + searchType);
         System.out.println("keyword = " + keyword);
 
-        return service.list(page);
+        return service.list(page, searchType, keyword);
     }
 
     @GetMapping("view/{id}")
