@@ -67,7 +67,7 @@ public class BoardController {
                             board.getId() + "번 개시물이 수정되었습니다.")));
 
         } else {
-            return ResponseEntity.ok()
+            return ResponseEntity.internalServerError()
                     .body(Map.of("message", Map.of("type", "error", "text",
                             board.getId() + "번 개시물이 수정되지 않았습니다..")));
         }
