@@ -24,7 +24,7 @@ export function BordList() {
   //searchParams
   console.log(searchParams.toString());
   //검색조건
-  console.log("검색조건");
+  console.log("검색조건", search);
 
   //page번호 얻기
   const pageParam = searchParams.get("page") ? searchParams.get("page") : "1";
@@ -60,6 +60,24 @@ export function BordList() {
     const nextSearchParams = new URLSearchParams(searchParams);
     nextSearchParams.set("page", e.page);
     setSearchParams(nextSearchParams);
+  }
+
+  function handleSearchClick() {
+    if (search.keyword.trim().length > 0) {
+      //검색
+      const nextSearchParam = new URLSearchParams(searchParams);
+      nextSearchParam.set("st", search.type);
+      nextSearchParam.set("sk", search.keyword);
+
+      setSearchParams(nextSearchParam);
+    } else {
+      //검색 안함
+      const nextSearchParam = new URLSearchParams(searchParams);
+      nextSearchParam.delete("st");
+      nextSearchParam.delete("sk");
+
+      setSearchParams(nextSearchParam);
+    }
   }
 
   return (
@@ -100,9 +118,12 @@ export function BordList() {
             />
           </NativeSelectRoot>
           <Input
-            onChange={(e) => setSearch({ ...search, keyword: e.target.value })}
+            value={search.keyword}
+            onChange={(e) =>
+              setSearch({ ...search, keyword: e.target.value.trim() })
+            }
           />
-          <Button>검색</Button>
+          <Button onClick={handleSearchClick}>검색</Button>
         </HStack>
       </Box>
 
