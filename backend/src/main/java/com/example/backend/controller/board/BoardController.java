@@ -3,11 +3,13 @@ package com.example.backend.controller.board;
 import com.example.backend.dto.board.Board;
 import com.example.backend.service.board.BoardService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/board")
@@ -36,7 +38,12 @@ public class BoardController {
     }
 
     @GetMapping("list")
-    public Map<String, Object> list(@RequestParam(value = "page", defaultValue = "1") Integer page) {
+    public Map<String, Object> list(@RequestParam(value = "page", defaultValue = "1") Integer page,
+                                    @RequestParam(value = "set", defaultValue = "all") String searchType,
+                                    @RequestParam(value = "sk", defaultValue = "") String keyword) {
+        System.out.println("searchType = " + searchType);
+        System.out.println("keyword = " + keyword);
+
         return service.list(page);
     }
 
