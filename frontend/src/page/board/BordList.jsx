@@ -8,10 +8,6 @@ import {
   PaginationPrevTrigger,
   PaginationRoot,
 } from "../../components/ui/pagination.jsx";
-import {
-  NativeSelectField,
-  NativeSelectRoot,
-} from "../../components/ui/native-select.jsx";
 import { Button } from "../../components/ui/button.jsx";
 
 export function BordList() {
@@ -132,17 +128,16 @@ export function BordList() {
       )}
 
       <HStack>
-        <NativeSelectRoot
-          onChange={(e) => setSearch({ ...search, type: e.target.value })}
-        >
-          <NativeSelectField
-            items={[
-              { label: "전체", value: "all" },
-              { label: "제목", value: "title" },
-              { label: "본문", value: "content" },
-            ]}
-          />
-        </NativeSelectRoot>
+        <Box>
+          <select
+            value={search.type}
+            onChange={(e) => setSearch({ ...search, type: e.target.value })}
+          >
+            <option value={"all"}>전체</option>
+            <option value={"title"}>제목</option>
+            <option value={"content"}>본문</option>
+          </select>
+        </Box>
         <Input
           value={search.keyword}
           onChange={(e) =>
