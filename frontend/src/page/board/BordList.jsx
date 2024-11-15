@@ -1,15 +1,26 @@
-import { Box, Table } from "@chakra-ui/react";
+import { Box, HStack, Table } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import {
+  PaginationItems,
+  PaginationNextTrigger,
+  PaginationPrevTrigger,
+  PaginationRoot,
+} from "../../components/ui/pagination.jsx";
 
 export function BordList() {
   const [boardList, setBoardList] = useState([]);
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  //page번호 얻기
+  const pageParam = searchParams.get("page") ? searchParams.get("page") : "1";
+  const page = Number(pageParam);
 
   useEffect(() => {
     axios
-      .get("/api/board/list")
+      .get("/api/board/list", { params: searchParams })
       .then((res) => res.data)
       .then((data) => setBoardList(data));
   }, []);
@@ -41,6 +52,16 @@ export function BordList() {
           ))}
         </Table.Body>
       </Table.Root>
+
+      <PaginationRoot count={1500} pageSize={10} page={page} variant="solid">
+        <HStack>
+          <PaginationPrevTrigger />
+
+          <PaginationItems />
+
+          <PaginationNextTrigger />
+        </HStack>
+      </PaginationRoot>
     </Box>
   );
 }
