@@ -138,6 +138,7 @@ export function BordList() {
             <option value={"content"}>본문</option>
           </select>
         </Box>
+
         <Input
           value={search.keyword}
           onChange={(e) =>
