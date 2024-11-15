@@ -28,6 +28,7 @@ public class BoardService {
         return mapper.selectById(id);
     }
 
+    //내용이 입력되었는지 확인
     public boolean validate(Board board) {
         boolean title = board.getTitle().trim().length() > 0;
         boolean content = board.getContent().trim().length() > 0;
