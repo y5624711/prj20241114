@@ -1,5 +1,5 @@
 import { Box, Input, Spinner, Stack, Textarea } from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Field } from "../../components/ui/field.jsx";
@@ -14,11 +14,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../../components/ui/dialog.jsx";
+import { toaster } from "../../components/ui/toaster.jsx";
 
 export function BoardEdit() {
   const { id } = useParams();
   const [board, setBoard] = useState(null);
   const [progress, setProgress] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios.get(`/api/board/view/${id}`).then((res) => setBoard(res.data));
@@ -30,9 +32,19 @@ export function BoardEdit() {
 
   const handleSaveClick = () => {
     setProgress(true);
-    axios.put("/api/board/update", board).finally(() => {
-      setProgress(false);
-    });
+    axios
+      .put("/api/board/update", board)
+      .then((res) => res.data)
+      .then((data) => {
+        toaster.create({
+          type: data.message.type,
+          description: data.message.text,
+        });
+        navigate(`/view/${board.id}`);
+      })
+      .finally(() => {
+        setProgress(false);
+      });
   };
 
   return (
