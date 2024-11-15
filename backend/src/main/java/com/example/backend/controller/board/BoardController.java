@@ -58,4 +58,9 @@ public class BoardController {
                             "text", "게시글 삭제 중 문제가 발생하였습니다.")));
         }
     }
+
+    @PutMapping("update")
+    public void update(@RequestBody Board board) {
+        service.update(board);
+    }
 }
