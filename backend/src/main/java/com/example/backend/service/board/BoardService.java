@@ -27,9 +27,9 @@ public class BoardService {
         //조회되는 게시물들
         List<Board> list = mapper.selectPage(offset, searchType, keyword);
         //전체 게시물 수
-        Integer count = mapper.countAll();
+        Integer count = mapper.countAll(searchType, keyword);
 
-        return Map.of("list", list, "count", mapper.countAll());
+        return Map.of("list", list, "count", count);
     }
 
     public Board get(int id) {
