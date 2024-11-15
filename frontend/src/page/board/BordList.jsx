@@ -87,27 +87,33 @@ export function BordList() {
   return (
     <Box>
       <h3>게시물 목록</h3>
-      <Table.Root interactive>
-        <Table.Header>
-          <Table.Row>
-            <Table.ColumnHeader>번호</Table.ColumnHeader>
-            <Table.ColumnHeader>제목</Table.ColumnHeader>
-            <Table.ColumnHeader>작성자</Table.ColumnHeader>
-            <Table.ColumnHeader>작성일시</Table.ColumnHeader>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {boardList.map((board) => (
-            <Table.Row onClick={() => handleRowClick(board.id)} key={board.id}>
-              <Table.Cell>{board.id}</Table.Cell>
-              <Table.Cell>{board.title}</Table.Cell>
-              <Table.Cell>{board.writer}</Table.Cell>
-              <Table.Cell>{board.inserted}</Table.Cell>
+      {boardList.length > 0 ? (
+        <Table.Root interactive>
+          <Table.Header>
+            <Table.Row>
+              <Table.ColumnHeader>번호</Table.ColumnHeader>
+              <Table.ColumnHeader>제목</Table.ColumnHeader>
+              <Table.ColumnHeader>작성자</Table.ColumnHeader>
+              <Table.ColumnHeader>작성일시</Table.ColumnHeader>
             </Table.Row>
-          ))}
-        </Table.Body>
-      </Table.Root>
-
+          </Table.Header>
+          <Table.Body>
+            {boardList.map((board) => (
+              <Table.Row
+                onClick={() => handleRowClick(board.id)}
+                key={board.id}
+              >
+                <Table.Cell>{board.id}</Table.Cell>
+                <Table.Cell>{board.title}</Table.Cell>
+                <Table.Cell>{board.writer}</Table.Cell>
+                <Table.Cell>{board.inserted}</Table.Cell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table.Root>
+      ) : (
+        <p>조회된 결과가 없습니다.</p>
+      )}
       <Box>
         <HStack>
           <NativeSelectRoot
