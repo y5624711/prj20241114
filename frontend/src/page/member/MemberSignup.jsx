@@ -1,4 +1,4 @@
-import { Box, Input, Stack, Textarea } from "@chakra-ui/react";
+import { Box, Group, Input, Stack, Textarea } from "@chakra-ui/react";
 import { Field } from "../../components/ui/field.jsx";
 import { Button } from "../../components/ui/button.jsx";
 import { useState } from "react";
@@ -39,12 +39,34 @@ export function MemberSignup() {
       });
   }
 
+  const handleIdCheckClick = () => {
+    axios
+      .get("/api/member/check", {
+        params: {
+          id: id,
+        },
+      })
+      .then((res) => res.data)
+      .then((data) => {
+        console.log("아이디체크 결과");
+        const message = data.message;
+        toaster.create({
+          type: message.type,
+          description: message.text,
+        });
+      });
+  };
   return (
     <Box>
       <h3>회원가입</h3>
       <Stack gap={5}>
         <Field label={"아이디"}>
-          <Input value={id} onChange={(e) => setId(e.target.value)} />
+          <Group attached w={"40%"}>
+            <Input value={id} onChange={(e) => setId(e.target.value)} />
+            <Button onClick={handleIdCheckClick} variant={"outline"}>
+              중복확인
+            </Button>
+          </Group>
         </Field>
         <Field label={"암호"}>
           <Input
