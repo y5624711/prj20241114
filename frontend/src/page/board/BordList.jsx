@@ -23,10 +23,17 @@ export function BordList() {
       .get("/api/board/list", { params: searchParams })
       .then((res) => res.data)
       .then((data) => setBoardList(data));
-  }, []);
+  }, [searchParams]);
 
   function handleRowClick(id) {
     navigate(`/view/${id}`);
+  }
+
+  function handlePageChange(e) {
+    console.log(e.page);
+    const nextSearchParams = new URLSearchParams(searchParams);
+    nextSearchParams.set("page", e.page);
+    setSearchParams(nextSearchParams);
   }
 
   return (
@@ -53,7 +60,13 @@ export function BordList() {
         </Table.Body>
       </Table.Root>
 
-      <PaginationRoot count={1500} pageSize={10} page={page} variant="solid">
+      <PaginationRoot
+        onPageChange={handlePageChange}
+        count={1500}
+        pageSize={10}
+        page={page}
+        variant="solid"
+      >
         <HStack>
           <PaginationPrevTrigger />
 
