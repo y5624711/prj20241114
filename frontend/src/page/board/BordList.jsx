@@ -13,6 +13,7 @@ export function BordList() {
   const [boardList, setBoardList] = useState([]);
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
+  const [count, setCount] = useState(0);
 
   //page번호 얻기
   const pageParam = searchParams.get("page") ? searchParams.get("page") : "1";
@@ -28,7 +29,10 @@ export function BordList() {
         signal: controller.signal,
       })
       .then((res) => res.data)
-      .then((data) => setBoardList(data));
+      .then((data) => {
+        setBoardList(data.list);
+        setCount(data.count);
+      });
 
     // CleanUp : 이전 페이지 요청 취소하고 현재 페이지로 다시 업데이트
     return () => {
@@ -73,7 +77,7 @@ export function BordList() {
 
       <PaginationRoot
         onPageChange={handlePageChange}
-        count={1500}
+        count={count}
         pageSize={10}
         page={page}
         variant="solid"
