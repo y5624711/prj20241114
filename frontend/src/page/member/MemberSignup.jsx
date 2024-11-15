@@ -5,13 +5,13 @@ import { useState } from "react";
 import axios from "axios";
 
 export function MemberSignup() {
-  const [userId, setUserId] = useState("");
+  const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [description, setDescription] = useState("");
 
   function handleSaveClick() {
     axios
-      .post("/api/member/signup", { userId, password, description })
+      .post("/api/member/signup", { id, password, description })
       .then((res) => {
         console.log("잘됨");
       })
@@ -28,7 +28,7 @@ export function MemberSignup() {
       <h3>회원가입</h3>
       <Stack gap={5}>
         <Field label={"아이디"}>
-          <Input value={userId} onChange={(e) => setUserId(e.target.value)} />
+          <Input value={id} onChange={(e) => setId(e.target.value)} />
         </Field>
         <Field label={"암호"}>
           <Input
@@ -44,7 +44,7 @@ export function MemberSignup() {
         </Field>
 
         <Box>
-          <Button>가입</Button>
+          <Button onClick={handleSaveClick}>가입</Button>
         </Box>
       </Stack>
     </Box>
