@@ -19,10 +19,21 @@ export function BordList() {
   const page = Number(pageParam);
 
   useEffect(() => {
+    // CleanUp : 이전 페이지 요청 취소하고 현재 페이지로 다시 업데이트
+    const controller = new AbortController();
+
     axios
-      .get("/api/board/list", { params: searchParams })
+      .get("/api/board/list", {
+        params: searchParams,
+        signal: controller.signal,
+      })
       .then((res) => res.data)
       .then((data) => setBoardList(data));
+
+    // CleanUp : 이전 페이지 요청 취소하고 현재 페이지로 다시 업데이트
+    return () => {
+      controller.abort();
+    };
   }, [searchParams]);
 
   function handleRowClick(id) {
