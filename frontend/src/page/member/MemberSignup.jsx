@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 export function MemberSignup() {
   const [id, setId] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [description, setDescription] = useState("");
   const [idCheck, setIdCheck] = useState(false);
@@ -16,7 +17,7 @@ export function MemberSignup() {
 
   function handleSaveClick() {
     axios
-      .post("/api/member/signup", { id, password, description })
+      .post("/api/member/signup", { id, email, password, description })
       .then((res) => {
         const message = res.data.message;
         console.log("잘됌");
@@ -86,6 +87,9 @@ export function MemberSignup() {
               중복확인
             </Button>
           </Group>
+        </Field>
+        <Field label={"이메일"}>
+          <Input value={email} onChange={(e) => setEmail(e.target.value)} />
         </Field>
         <Field label={"암호"}>
           <Input

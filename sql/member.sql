@@ -8,5 +8,11 @@ CREATE TABLE member
     inserted    DATETIME DEFAULT NOW()
 );
 
+DROP TABLE member;
+
 SELECT *
 FROM member;
+
+ALTER TABLE member
+    ADD COLUMN email VARCHAR(20) NOT NULL UNIQUE AFTER id;
+
