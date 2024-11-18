@@ -6,6 +6,7 @@ import { BoardView } from "./page/board/BoardView.jsx";
 import { BoardEdit } from "./page/board/BoardEdit.jsx";
 import { MemberSignup } from "./page/member/MemberSignup.jsx";
 import { MemberList } from "./page/member/MemberList.jsx";
+import { MemberInfo } from "./page/member/MemberInfo.jsx";
 
 const router = createBrowserRouter([
   {
@@ -24,7 +25,7 @@ const router = createBrowserRouter([
       },
       { path: "member/signup", element: <MemberSignup /> },
       { path: "member/list", element: <MemberList /> },
-      { path: "member/:id", element: <div>회원정보</div> },
+      { path: "member/:id", element: <MemberInfo /> },
       { path: "member/edit/:id", element: <div>회원정보 수정</div> },
     ],
   },
