@@ -64,7 +64,7 @@ export function MemberSignup() {
   //가입버튼 비활성화 여부
   let disabled = true;
   if (idCheck) {
-    if (password === passwordCheck) {
+    if (password === passwordCheck && password !== "" && passwordCheck !== "") {
       disabled = !idCheck;
     }
   }
