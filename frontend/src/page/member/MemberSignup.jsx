@@ -13,7 +13,7 @@ export function MemberSignup() {
   const [description, setDescription] = useState("");
   const [idCheck, setIdCheck] = useState(false);
   const [passwordCheck, setPasswordCheck] = useState("");
-  const [emailCheck, setEmailCheck] = useState(false);
+  const [emailCheck, setEmailCheck] = useState(true);
   const navigate = useNavigate();
 
   function handleSaveClick() {
@@ -97,6 +97,9 @@ export function MemberSignup() {
     }
   }
 
+  //이메일 중복확인 버튼 활성화 여부
+  let emailCheckButtonDisabled = email.length === 0;
+
   return (
     <Box>
       <h3>회원가입</h3>
@@ -116,9 +119,25 @@ export function MemberSignup() {
           </Group>
         </Field>
         <Field label={"이메일"}>
-          <Group>
-            <Input value={email} onChange={(e) => setEmail(e.target.value)} />
-            <Button onClick={handleEmailCheckClick}>중복확인</Button>
+          <Group attached w={"40%"}>
+            <Input
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+
+                if (e.target.value.length > 0) {
+                  setEmailCheck(false);
+                } else {
+                  setEmailCheck(true);
+                }
+              }}
+            />
+            <Button
+              disabled={emailCheckButtonDisabled}
+              onClick={handleEmailCheckClick}
+            >
+              중복확인
+            </Button>
           </Group>
         </Field>
         <Field label={"암호"}>
