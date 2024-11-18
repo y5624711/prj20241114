@@ -13,6 +13,7 @@ export function MemberSignup() {
   const [description, setDescription] = useState("");
   const [idCheck, setIdCheck] = useState(false);
   const [passwordCheck, setPasswordCheck] = useState("");
+  const [emailCheck, setEmailCheck] = useState(false);
   const navigate = useNavigate();
 
   function handleSaveClick() {
@@ -62,11 +63,37 @@ export function MemberSignup() {
       });
   };
 
+  const handleEmailCheckClick = () => {
+    axios
+      .get("/api/member/check", {
+        params: {
+          email: email,
+        },
+      })
+      .then((res) => res.data)
+      .then((data) => {
+        console.log("아이디체크 결과");
+        const message = data.message;
+        toaster.create({
+          type: message.type,
+          description: message.text,
+        });
+
+        setEmailCheck(data.available);
+      });
+  };
+
   //가입버튼 비활성화 여부
   let disabled = true;
   if (idCheck) {
-    if (password === passwordCheck && password !== "" && passwordCheck !== "") {
-      disabled = !idCheck;
+    if (emailCheck) {
+      if (
+        password === passwordCheck &&
+        password !== "" &&
+        passwordCheck !== ""
+      ) {
+        disabled = !idCheck;
+      }
     }
   }
 
@@ -89,7 +116,10 @@ export function MemberSignup() {
           </Group>
         </Field>
         <Field label={"이메일"}>
-          <Input value={email} onChange={(e) => setEmail(e.target.value)} />
+          <Group>
+            <Input value={email} onChange={(e) => setEmail(e.target.value)} />
+            <Button onClick={handleEmailCheckClick}>중복확인</Button>
+          </Group>
         </Field>
         <Field label={"암호"}>
           <Input
