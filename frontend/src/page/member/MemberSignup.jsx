@@ -19,7 +19,6 @@ export function MemberSignup() {
       .post("/api/member/signup", { id, password, description })
       .then((res) => {
         const message = res.data.message;
-        console.log("잘됌");
         toaster.create({
           type: message.type,
           description: message.text,
@@ -29,16 +28,13 @@ export function MemberSignup() {
         navigate("/");
       })
       .catch((e) => {
-        console.log("안됐을 때");
         const message = e.response.data.message;
         toaster.create({
           type: message.type,
           description: message.text,
         });
       })
-      .finally(() => {
-        console.log("실패 성공 상관없음");
-      });
+      .finally(() => {});
   }
 
   const handleIdCheckClick = () => {
