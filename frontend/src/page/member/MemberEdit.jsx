@@ -110,7 +110,7 @@ export function MemberEdit() {
     <Box>
       <h3>회원 정보</h3>
       <Stack gap={5}>
-        <Field readOnly label={"아이디"}>
+        <Field readOnly label={"아이디"} attached w={"40%"}>
           <Input defaultValue={member.id} />
         </Field>
         <Field label={"이메일"}>

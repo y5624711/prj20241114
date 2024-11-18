@@ -65,10 +65,10 @@ export function MemberInfo() {
       <h3>회원 정보</h3>
       <Stack gap={5}>
         <Field label={"아이디"}>
-          <Input readOnly value={member.id} />
+          <Input readOnly value={member.id} attached w={"40%"} />
         </Field>
         <Field label={"이메일"}>
-          <Input readOnly value={member.email} />
+          <Input readOnly value={member.email} attached w={"40%"} />
         </Field>
         <Field label={"암호"}>
           <Input readOnly value={member.password} />
