@@ -18,7 +18,12 @@ export function MemberSignup() {
 
   function handleSaveClick() {
     axios
-      .post("/api/member/signup", { id, email, password, description })
+      .post("/api/member/signup", {
+        id,
+        email: email.length === 0 ? null : email,
+        password,
+        description,
+      })
       .then((res) => {
         const message = res.data.message;
         console.log("잘됌");
