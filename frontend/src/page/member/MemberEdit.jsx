@@ -33,6 +33,7 @@ export function MemberEdit() {
       setPassword(res.data.password);
       setDescription(res.data.description);
       if (res.data.email) {
+        //undefined 값을 받아올때 오류가 나는걸 방지
         setEmail(res.data.email);
       }
     });

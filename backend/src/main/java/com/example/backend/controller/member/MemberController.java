@@ -106,4 +106,15 @@ public class MemberController {
         }
     }
 
+    @PostMapping("login")
+    public void login(@RequestBody Member member) {
+        String token = service.token(member);
+        if (token != null) {
+
+        } else {
+
+        }
+//        System.out.println("member = " + member);
+    }
+
 }
