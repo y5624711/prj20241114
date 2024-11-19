@@ -33,7 +33,7 @@ public class AppConfiguration {
 
 
     @Bean
-    SecurityFilterChain springSecurityFilyerChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.oauth2ResourceServer(configurer -> configurer.jwt(Customizer.withDefaults()));
         return http.build();
     }
