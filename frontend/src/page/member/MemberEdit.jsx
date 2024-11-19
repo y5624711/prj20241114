@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Box, Group, Input, Spinner, Stack, Textarea } from "@chakra-ui/react";
 import { Field } from "../../components/ui/field.jsx";
-import { Button } from "../../components/ui/button.jsx";
 import {
   DialogActionTrigger,
   DialogBody,
@@ -14,6 +13,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../../components/ui/dialog.jsx";
+import { Button } from "../../components/ui/button.jsx";
 import { toaster } from "../../components/ui/toaster.jsx";
 
 export function MemberEdit() {
@@ -33,7 +33,6 @@ export function MemberEdit() {
       setPassword(res.data.password);
       setDescription(res.data.description);
       if (res.data.email) {
-        //undefined 값을 받아올때 오류가 나는걸 방지
         setEmail(res.data.email);
       }
     });
@@ -93,13 +92,13 @@ export function MemberEdit() {
   let emailCheckButtonDisabled = true;
 
   if (email.length === 0 || member.email === email) {
-    //이메일을 안쓰거나 기존과 같으면 true;
+    // 이메일을 안쓰거나 기존과 같으면 true
   } else {
-    //그렇지 않으면 false
+    // 그렇지 않으면 false
     emailCheckButtonDisabled = false;
   }
 
-  //저장버튼 활성화 여부
+  // 저장버튼 활성화 여부
   let saveButtonDisabled = false;
   if (!emailCheck) {
     saveButtonDisabled = true;
@@ -113,11 +112,11 @@ export function MemberEdit() {
     <Box>
       <h3>회원 정보</h3>
       <Stack gap={5}>
-        <Field readOnly label={"아이디"} attached w={"40%"}>
+        <Field readOnly label={"아이디"}>
           <Input defaultValue={member.id} />
         </Field>
         <Field label={"이메일"}>
-          <Group>
+          <Group attached w={"100%"}>
             <Input
               value={email}
               onChange={(e) => {
@@ -132,6 +131,7 @@ export function MemberEdit() {
               }}
             />
             <Button
+              variant={"outline"}
               onClick={handleEmailCheckClick}
               disabled={emailCheckButtonDisabled}
             >

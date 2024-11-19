@@ -18,22 +18,20 @@ export function MemberLogin() {
       .post("/api/member/login", { id, password })
       .then((res) => res.data)
       .then((data) => {
-        //토스트 띄우고
+        // 토스트 띄우고
         toaster.create({
           type: data.message.type,
           description: data.message.text,
         });
-        // "/" 로 이동
+        // "/"로 이동
         navigate("/");
-        // localStorage 에 token 저장
-        localStorage.setItem("token", data.token);
         // login
         console.log(data.token);
         authentication.login(data.token);
       })
       .catch((e) => {
         const message = e.response.data.message;
-        //토스트 띄우고
+        // 토스트 띄우고
         toaster.create({
           type: message.type,
           description: message.text,
