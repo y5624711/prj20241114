@@ -30,6 +30,7 @@ export function BoardAdd() {
           description: message.text,
           type: message.type,
         });
+
         navigate(`/view/${data.data.id}`);
       })
       .catch((e) => {
@@ -40,7 +41,7 @@ export function BoardAdd() {
         });
       })
       .finally(() => {
-        // 성공 실패 상관없이 실행
+        // 성공 / 실패 상관 없이 실행
         setProgress(false);
       });
   };
