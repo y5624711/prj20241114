@@ -10,7 +10,7 @@ import {
 } from "../../components/ui/pagination.jsx";
 import { Button } from "../../components/ui/button.jsx";
 
-export function BordList() {
+export function BoardList() {
   const [boardList, setBoardList] = useState([]);
   const [count, setCount] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();

@@ -1,18 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { Box, Flex } from "@chakra-ui/react";
-import { jwtDecode } from "jwt-decode";
+import { useContext } from "react";
+import { AuthenticationContext } from "../context/AuthenticationProvider.jsx";
 
 export function Navbar() {
   const navigate = useNavigate();
-
-  //TODO:임시
-  const token = localStorage.getItem("token");
-  let name;
-
-  if (token) {
-    const decode = jwtDecode(token);
-    name = decode.sub;
-  }
+  //step 2 :context 사용하기
+  const authentication = useContext(AuthenticationContext);
 
   return (
     <Flex gap={3}>
@@ -23,13 +17,13 @@ export function Navbar() {
       <Box onClick={() => navigate("/member/login")}>로그인</Box>
       <Box
         onClick={() => {
-          localStorage.removeItem("token");
+          authentication.logout();
           navigate("/member/login");
         }}
       >
         로그아웃
       </Box>
-      <Box>{name}</Box>
+      <Box>{authentication.id}</Box>
     </Flex>
   );
 }
