@@ -60,4 +60,10 @@ public class BoardService {
         int cnt = mapper.update(board);
         return cnt == 1;
     }
+
+    public boolean hasAccess(int id, Authentication authentication) {
+        Board board = mapper.selectById(id);
+
+        return board.getWriter().equals(authentication.getName());
+    }
 }
