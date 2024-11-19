@@ -4,6 +4,7 @@ import com.example.backend.dto.board.Board;
 import com.example.backend.service.board.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,10 +18,10 @@ public class BoardController {
     final BoardService service;
 
     @PostMapping("add")
-    public ResponseEntity<Map<String, Object>> add(@RequestBody Board board) {
+    public ResponseEntity<Map<String, Object>> add(@RequestBody Board board, Authentication authentication) {
         if (service.validate(board)) {
 
-            if (service.add(board)) {
+            if (service.add(board, authentication)) {
                 return ResponseEntity.ok()
                         .body(Map.of("message",
                                 Map.of("type", "success", "text",
