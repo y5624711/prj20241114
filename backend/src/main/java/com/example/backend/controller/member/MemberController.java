@@ -84,7 +84,6 @@ public class MemberController {
         if (service.hasAccess(id, auth) || service.isAdmin(auth)) {
             return ResponseEntity.ok(service.get(id));
         } else {
-
             return ResponseEntity.status(403).build();
         }
 
