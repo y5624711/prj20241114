@@ -72,12 +72,13 @@ public class MemberService {
         Member db = mapper.selectById(member.getId());
         if (db != null) {
             if (db.getPassword().equals(member.getPassword())) {
-                //token 만들어서 리턴
+                // token 만들어서 리턴
                 JwtClaimsSet claims = JwtClaimsSet.builder()
                         .issuer("self")
                         .subject(member.getId())
                         .issuedAt(Instant.now())
                         .expiresAt(Instant.now().plusSeconds(60 * 60 * 24 * 7))
+//                        .claim("scope", "")
                         .build();
 
                 return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();

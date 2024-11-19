@@ -114,8 +114,10 @@ public class MemberController {
             return ResponseEntity.ok(Map.of("token", token, "message",
                     Map.of("type", "success", "text", "로그인 되었습니다")));
         } else {
-            return ResponseEntity.status(401).body(Map.of("message",
-                    Map.of("type", "success", "text", "로그인 되었습니다")));
+            // 로그인 실패
+            return ResponseEntity.status(401)
+                    .body(Map.of("message", Map.of("type", "warning",
+                            "text", "아이디와 암호를 확인해주세요.")));
 
         }
 //        System.out.println("member = " + member);
