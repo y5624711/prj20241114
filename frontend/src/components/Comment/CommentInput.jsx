@@ -6,9 +6,6 @@ export function CommentInput({ boardId, onSaveClick }) {
   const [comment, setComment] = useState("");
 
   const handleSaveClick = () => {
-    if (comment.trim() === "") {
-      return;
-    }
     onSaveClick(comment);
     setComment("");
   };
