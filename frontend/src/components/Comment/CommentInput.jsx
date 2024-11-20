@@ -13,7 +13,7 @@ export function CommentInput({ boardId, onSaveClick }) {
   };
 
   return (
-    <Box w="100">
+    <Box>
       <Group>
         <Textarea
           value={comment}

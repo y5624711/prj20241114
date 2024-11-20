@@ -10,3 +10,17 @@ CREATE TABLE comment
 );
 
 drop TABLE comment;
+
+#게시물의 댓글 수 조회
+#sub query
+
+SELECT id, title, writer, inserted, (SELECT COUNT(c.id) FROM comment c WHERE board_id = b.id) c
+FROM board b
+ORDER BY id DESC;
+
+SELECT b.id, b.title, b.writer, b.inserted, COUNT(c.id)
+FROM board b
+         LEFT JOIN comment c
+                   ON b.id = c.board_id
+GROUP BY b.id
+ORDER BY b.id DESC
