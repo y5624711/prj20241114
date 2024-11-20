@@ -26,5 +26,13 @@ public class CommentController {
         return service.list(boardId);
     }
 
+    @DeleteMapping("remove/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public void remove(@PathVariable Integer id, Authentication auth) {
+        if (service.hasAccess(id, auth)) {
+            service.remove(id);
+        }
+    }
+
 
 }

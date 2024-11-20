@@ -7,7 +7,7 @@ export function CommentInput({ boardId, onSaveClick }) {
 
   return (
     <Box>
-      <Group w="40%">
+      <Group>
         <Textarea
           value={comment}
           onChange={(e) => setComment(e.target.value)}

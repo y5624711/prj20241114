@@ -24,15 +24,28 @@ export function CommentContainer({ boardId }) {
         boardId: boardId,
         comment: comment,
       })
-      .finally(() => setProcessing(false));
+      .finally(() => {
+        setProcessing(false);
+      });
+  }
+
+  function handleDeleteClick(id) {
+    setProcessing(true);
+    axios.delete(`/api/comment/remove/${id}`).finally(() => {
+      setProcessing(false);
+    });
   }
 
   return (
     <Box>
       <Stack gap={5}>
         <h3>댓글</h3>
-        <CommentInput boardId={boardId} onSaveClick={handleSaveClick} pt="3" />
-        <CommentList boardId={boardId} commentList={commentList} />
+        <CommentInput boardId={boardId} onSaveClick={handleSaveClick} />
+        <CommentList
+          boardId={boardId}
+          commentList={commentList}
+          onDeleteClick={handleDeleteClick}
+        />
       </Stack>
     </Box>
   );
