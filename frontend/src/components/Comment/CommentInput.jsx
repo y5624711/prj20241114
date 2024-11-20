@@ -5,6 +5,14 @@ import { useState } from "react";
 export function CommentInput({ boardId, onSaveClick }) {
   const [comment, setComment] = useState("");
 
+  const handleSaveClick = () => {
+    if (comment.trim() === "") {
+      return;
+    }
+    onSaveClick(comment);
+    setComment("");
+  };
+
   return (
     <Box>
       <Group>
@@ -12,7 +20,7 @@ export function CommentInput({ boardId, onSaveClick }) {
           value={comment}
           onChange={(e) => setComment(e.target.value)}
         />
-        <Button onClick={() => onSaveClick(comment)}>댓글 쓰기</Button>
+        <Button onClick={handleSaveClick}>댓글 쓰기</Button>
       </Group>
     </Box>
   );
