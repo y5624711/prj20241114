@@ -93,7 +93,8 @@ export function CommentItem({ comment, onDeleteClick, onEditClick }) {
           <h3>{comment.memberId}</h3>
           <h4>{comment.inserted}</h4>
         </Flex>
-        <p>{comment.comment}</p>
+        <hr />
+        <Box css={{ whiteSpace: "pre" }}>{comment.comment}</Box>
       </Box>
       {hasAccess(comment.memberId) && (
         <Box>
