@@ -23,7 +23,7 @@ export function MemberInfo() {
   const [password, setPassword] = useState("");
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-  const { hasAccess } = useContext(AuthenticationContext);
+  const { hasAccess, isAdmin } = useContext(AuthenticationContext);
 
   useEffect(() => {
     //회원정보 얻기
@@ -33,6 +33,8 @@ export function MemberInfo() {
   if (!member) {
     return <Spinner />;
   }
+
+  const showButton = hasAccess(id) || isAdmin;
 
   function handleDeleteClick() {
     axios
@@ -81,7 +83,7 @@ export function MemberInfo() {
         <Field label={"가입일"}>
           <Input type={"datetime-local"} readOnly value={member.inserted} />
         </Field>
-        {hasAccess(id) && (
+        {showButton && (
           <Box>
             <Button onClick={() => navigate(`/member/edit/${id}`)}>수정</Button>
             <DialogRoot open={open} onOpenChange={(e) => setOpen(e.open)}>
