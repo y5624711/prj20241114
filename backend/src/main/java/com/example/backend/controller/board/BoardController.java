@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Map;
 
@@ -18,26 +19,30 @@ import java.util.Map;
 public class BoardController {
     final BoardService service;
 
+
     @PostMapping("add")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<Map<String, Object>> add(@RequestBody Board board, Authentication authentication) {
-        if (service.validate(board)) {
+    public ResponseEntity<Map<String, Object>> add(
+            Board board,
+            @RequestParam(value = "files[]", required = false) MultipartFile[] files,
+            Authentication authentication) {
 
-            if (service.add(board, authentication)) {
+        if (service.validate(board)) {
+            if (service.add(board, files, authentication)) {
                 return ResponseEntity.ok()
-                        .body(Map.of("message",
-                                Map.of("type", "success", "text",
-                                        board.getId() + "번 게시믈이 등록되었습니다."),
+                        .body(Map.of("message", Map.of("type", "success",
+                                        "text", STR."\{board.getId()}번 게시물이 등록되었습니다"),
                                 "data", board));
             } else {
                 return ResponseEntity.internalServerError()
-                        .body(Map.of("message",
-                                Map.of("type", "warning", "text", "게시물 등록이 실패하였습니다.")));
+                        .body(Map.of("message", Map.of("type", "warning",
+                                "text", "게시물 등록이 실패하였습니다.")));
             }
         } else {
             return ResponseEntity.badRequest().body(Map.of("message", Map.of("type", "warning",
-                    "text", "제목과 본문이 비어있을 수 없습니다.")));
+                    "text", "제목이나 본문이 비어있을 수 없습니다.")));
         }
+
     }
 
     @GetMapping("list")

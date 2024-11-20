@@ -16,6 +16,7 @@ export function CommentInput({ boardId, onSaveClick }) {
     <Box>
       <Group>
         <Textarea
+          style={{ width: "900px", resize: "none" }}
           value={comment}
           disabled={!isAuthenticated}
           placeholder={isAuthenticated ? "" : "로그인 후 댓글을 남겨주세요"}
