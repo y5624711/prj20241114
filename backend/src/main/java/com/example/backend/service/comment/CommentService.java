@@ -22,18 +22,22 @@ public class CommentService {
         mapper.insert(comment);
     }
 
-
     public List<Comment> list(Integer boardId) {
         return mapper.selectByBoardId(boardId);
     }
 
     public boolean hasAccess(Integer id, Authentication auth) {
         Comment comment = mapper.selectById(id);
-
         return comment.getMemberId().equals(auth.getName());
     }
 
     public void remove(Integer id) {
         mapper.deleteById(id);
+    }
+
+    public boolean update(Comment comment) {
+        int cnt = mapper.update(comment);
+
+        return cnt == 1;
     }
 }
