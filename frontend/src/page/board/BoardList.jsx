@@ -125,6 +125,12 @@ export function BoardList() {
                       {board.countComment}
                     </Badge>
                   )}
+                  {board.countFile > 0 && (
+                    <Badge variant={"subtle"} colorPalette={"gray"}>
+                      <FaCommentDots />
+                      {board.countComment}
+                    </Badge>
+                  )}
                 </Table.Cell>
 
                 <Table.Cell>{board.writer}</Table.Cell>
