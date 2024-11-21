@@ -45,7 +45,8 @@ public class BoardService {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-
+                //board_file 테이블에 파일명 입력
+                mapper.insertFile(board.getId(), file.getOriginalFilename());
             }
         }
 
