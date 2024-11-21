@@ -47,4 +47,11 @@ public interface CommentMapper {
             WHERE board_id=#{id}
             """)
     int deleteByBoard(int id);
+
+
+    @Delete("""
+            DELETE FROM comment
+            WHERE member_id=#{id}
+            """)
+    int deleteByMemberId(String id);
 }
