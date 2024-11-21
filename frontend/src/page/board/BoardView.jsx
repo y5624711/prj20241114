@@ -25,8 +25,7 @@ function ImageFileView({ files }) {
         <Image
           key={file.name}
           src={file.src}
-          w={"100%"}
-          boarder={"1px solid black"}
+          border={"1px solid black"}
           m={3}
         />
       ))}

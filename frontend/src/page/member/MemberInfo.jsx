@@ -23,7 +23,7 @@ export function MemberInfo() {
   const [password, setPassword] = useState("");
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-  const { hasAccess, isAdmin } = useContext(AuthenticationContext);
+  const { hasAccess, isAdmin, logout } = useContext(AuthenticationContext);
 
   useEffect(() => {
     //회원정보 얻기
@@ -42,13 +42,13 @@ export function MemberInfo() {
         data: { id: id, password: password },
       })
       .then((res) => {
+        logout();
         const message = res.data.message;
-
         toaster.create({
           type: message.type,
           description: message.text,
         });
-        navigate("/member/list");
+        navigate("/member/login");
       })
       .catch((e) => {
         const message = e.response.data.message;
