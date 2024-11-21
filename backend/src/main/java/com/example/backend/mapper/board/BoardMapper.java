@@ -48,10 +48,11 @@ public interface BoardMapper {
             <script>
                 SELECT b.id, b.title, b.writer, b.inserted,
                         COUNT(DISTINCT c.id) countComment, COUNT(DISTINCT f.name) countFile
+            
                 FROM board b LEFT JOIN comment c
-                            ON b.id = c.board_id
-                            LEFT JOIN board_file f
-                            ON b.id = f.board_id
+                                ON b.id = c.board_id
+                             LEFT JOIN board_file f 
+                                ON b.id = f.board_id
                 WHERE 
                     <trim prefixOverrides="OR">
                         <if test="searchType == 'all' or searchType == 'title'">
@@ -86,14 +87,14 @@ public interface BoardMapper {
 
     @Insert("""
             INSERT INTO board_file
-            VALUES (#{id},#{fileName})
+            VALUES (#{id}, #{fileName})
             """)
     int insertFile(Integer id, String fileName);
 
     @Select("""
-            SELECT name
+            SELECT name 
             FROM board_file
-            WHERE board_id=#{id}
+            WHERE board_id = #{id}
             """)
     List<String> selectFilesByBoardId(int id);
 }
