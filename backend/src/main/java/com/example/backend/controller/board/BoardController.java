@@ -93,9 +93,8 @@ public class BoardController {
             @RequestParam(value = "removeFiles[]", required = false) List<String> removeFiles,
             @RequestParam(value = "uploadFiles[]", required = false) MultipartFile[] uploadFiles,
             Authentication authentication) {
+        
         if (service.hasAccess(board.getId(), authentication)) {
-
-
             if (service.validate(board)) {
                 if (service.update(board, removeFiles, uploadFiles)) {
                     return ResponseEntity.ok()
