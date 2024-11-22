@@ -4,6 +4,7 @@ import com.example.backend.dto.board.Board;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface BoardMapper {
@@ -130,4 +131,19 @@ public interface BoardMapper {
             VALUES(#{id},#{name})
             """)
     int insertLike(Integer id, String name);
+
+    @Select("""
+            SELECT COUNT(*)
+            FROM board_like
+            WHERE board_id=#{id}
+            """)
+    int countLike(Integer id);
+
+    @Select("""
+            SELECT *
+            FROM board_like
+            WHERE board_id=#{id}
+             AND member_id=#{name}
+            """)
+    Map<String, Object> selectLikeByBoardIdAndMemberId(int id, String name);
 }

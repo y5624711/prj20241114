@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import {
   Box,
+  Container,
   Flex,
   Heading,
   HStack,
@@ -27,7 +28,7 @@ import {
 } from "../../components/ui/dialog.jsx";
 import { AuthenticationContext } from "../../components/context/AuthenticationProvider.jsx";
 import { CommentContainer } from "../../components/Comment/CommentContainer.jsx";
-import { GoHeart } from "react-icons/go";
+import { GoStar, GoStarFill } from "react-icons/go";
 
 function ImageFileView({ files }) {
   return (
@@ -47,6 +48,7 @@ function ImageFileView({ files }) {
 export function BoardView() {
   const { id } = useParams();
   const [board, setBoard] = useState(null);
+  const [like, setLike] = useState({ like: false, count: 0 });
   const navigate = useNavigate();
   const { hasAccess } = useContext(AuthenticationContext);
 
@@ -54,10 +56,16 @@ export function BoardView() {
     axios.get(`/api/board/view/${id}`).then((res) => setBoard(res.data));
   }, []);
 
+  useEffect(() => {
+    axios
+      .get(`/api/board/like/${id}`)
+      .then((res) => res.data)
+      .then((data) => setLike(data));
+  }, []);
+
   if (board === null) {
     return <Spinner />;
   }
-
   const handleDeleteClick = () => {
     axios
       .delete(`/api/board/delete/${board.id}`)
@@ -83,7 +91,8 @@ export function BoardView() {
       .post("/api/board/like", {
         id: board.id,
       })
-      .then()
+      .then((res) => res.data)
+      .then((data) => setLike(data))
       .catch()
       .finally();
   };
@@ -92,16 +101,6 @@ export function BoardView() {
     <Box>
       <Flex>
         <Heading me={"auto"}>{id} 번 게시물</Heading>
-        <HStack>
-          <Box onClick={handleLikeClick}>
-            <Heading>
-              <GoHeart />
-            </Heading>
-          </Box>
-          <Box>
-            <Heading>3</Heading>
-          </Box>
-        </HStack>
       </Flex>
       <Stack gap={5}>
         <Field label="제목" readOnly>
@@ -114,6 +113,24 @@ export function BoardView() {
           <Textarea value={board.content} />
         </Field>
         <ImageFileView files={board.fileList} />
+
+        {/*좋아요*/}
+        <Container border={"1px solid black"} maxWidth="100px">
+          <HStack>
+            <Box onClick={handleLikeClick}>
+              <Heading size="3xl">
+                {like.like || <GoStar />}
+                {like.like && <GoStarFill />}
+              </Heading>
+            </Box>
+            <Box>
+              <Heading>{like.count}</Heading>
+            </Box>
+          </HStack>
+          <p>추천</p>
+        </Container>
+
+        <hr />
         <Field label="작성일시" readOnly>
           <Input value={board.inserted} type={"datetime-local"} />
         </Field>
