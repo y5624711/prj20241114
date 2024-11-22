@@ -29,6 +29,7 @@ import {
 import { AuthenticationContext } from "../../components/context/AuthenticationProvider.jsx";
 import { CommentContainer } from "../../components/Comment/CommentContainer.jsx";
 import { GoStar, GoStarFill } from "react-icons/go";
+import { ToggleTip } from "../../components/ui/toggle-tip.jsx";
 
 function ImageFileView({ files }) {
   return (
@@ -49,8 +50,9 @@ export function BoardView() {
   const { id } = useParams();
   const [board, setBoard] = useState(null);
   const [like, setLike] = useState({ like: false, count: 0 });
+  const [likeToolTipOpen, setLikeToolTipOpen] = useState(false);
   const navigate = useNavigate();
-  const { hasAccess } = useContext(AuthenticationContext);
+  const { hasAccess, isAuthenticated } = useContext(AuthenticationContext);
 
   useEffect(() => {
     axios.get(`/api/board/view/${id}`).then((res) => setBoard(res.data));
@@ -87,14 +89,19 @@ export function BoardView() {
   };
 
   const handleLikeClick = () => {
-    axios
-      .post("/api/board/like", {
-        id: board.id,
-      })
-      .then((res) => res.data)
-      .then((data) => setLike(data))
-      .catch()
-      .finally();
+    if (isAuthenticated) {
+      axios
+        .post("/api/board/like", {
+          id: board.id,
+        })
+        .then((res) => res.data)
+        .then((data) => setLike(data))
+        .catch()
+        .finally();
+    } else {
+      //tooltip 보여주기
+      setLikeToolTipOpen(!likeToolTipOpen);
+    }
   };
 
   return (
@@ -115,19 +122,24 @@ export function BoardView() {
         <ImageFileView files={board.fileList} />
 
         {/*좋아요*/}
-        <Container border={"1px solid black"} maxWidth="100px">
+        <Container>
           <HStack>
             <Box onClick={handleLikeClick}>
-              <Heading size="3xl">
-                {like.like || <GoStar />}
-                {like.like && <GoStarFill />}
-              </Heading>
+              <ToggleTip
+                open={likeToolTipOpen}
+                content={"로그인 후 좋아요를 클릭해 주세요"}
+              >
+                <Heading size="3xl">
+                  {like.like || <GoStar />}
+                  {like.like && <GoStarFill />}
+                </Heading>
+              </ToggleTip>
             </Box>
             <Box>
               <Heading>{like.count}</Heading>
             </Box>
+            <p>추천</p>
           </HStack>
-          <p>추천</p>
         </Container>
 
         <hr />
