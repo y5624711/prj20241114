@@ -106,6 +106,7 @@ export function BoardList() {
             <Table.Row>
               <Table.ColumnHeader>번호</Table.ColumnHeader>
               <Table.ColumnHeader>제목</Table.ColumnHeader>
+              <Table.ColumnHeader>추천수</Table.ColumnHeader>
               <Table.ColumnHeader>작성자</Table.ColumnHeader>
               <Table.ColumnHeader>작성일시</Table.ColumnHeader>
             </Table.Row>
@@ -131,6 +132,9 @@ export function BoardList() {
                       {board.countFile}
                     </Badge>
                   )}
+                </Table.Cell>
+                <Table.Cell>
+                  {board.countLike > 0 ? board.countLike : ""}
                 </Table.Cell>
                 <Table.Cell>{board.writer}</Table.Cell>
                 <Table.Cell>{board.inserted}</Table.Cell>

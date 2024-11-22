@@ -48,12 +48,16 @@ public interface BoardMapper {
     @Select("""
             <script>
                 SELECT b.id, b.title, b.writer, b.inserted,
-                        COUNT(DISTINCT c.id) countComment, COUNT(DISTINCT f.name) countFile
+                        COUNT(DISTINCT c.id) countComment,
+                        COUNT(DISTINCT f.name) countFile,
+                        COUNT(DISTINCT l.member_id) countLike
             
                 FROM board b LEFT JOIN comment c
                                 ON b.id = c.board_id
-                             LEFT JOIN board_file f 
+                             LEFT JOIN board_file f
                                 ON b.id = f.board_id
+                             LEFT JOIN board_like l
+                                ON b.id = l.board_id
                 WHERE 
                     <trim prefixOverrides="OR">
                         <if test="searchType == 'all' or searchType == 'title'">

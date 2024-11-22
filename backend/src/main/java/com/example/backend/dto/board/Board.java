@@ -15,6 +15,7 @@ public class Board {
 
     private Integer countComment;
     private Integer countFile;
+    private Integer countLike;
 
     //파일목록
     private List<BoardFile> fileList;
