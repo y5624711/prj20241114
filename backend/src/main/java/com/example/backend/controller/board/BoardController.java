@@ -93,7 +93,7 @@ public class BoardController {
             @RequestParam(value = "removeFiles[]", required = false) List<String> removeFiles,
             @RequestParam(value = "uploadFiles[]", required = false) MultipartFile[] uploadFiles,
             Authentication authentication) {
-        
+
         if (service.hasAccess(board.getId(), authentication)) {
             if (service.validate(board)) {
                 if (service.update(board, removeFiles, uploadFiles)) {
@@ -116,6 +116,12 @@ public class BoardController {
                     .body(Map.of("message", Map.of("type", "error"
                             , "text", "수정 권한이 없습니다.")));
         }
+    }
+
+    @PostMapping("like")
+    @PreAuthorize("isAuthenticated()")
+    public void like(@RequestBody Board board, Authentication authentication) {
+        service.like(board, authentication);
     }
 
 }
