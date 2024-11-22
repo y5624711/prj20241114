@@ -96,7 +96,7 @@ export function BoardList() {
   }
 
   return (
-    <Box>
+    <Box mx={"auto"} w={"1280px"}>
       <MyHeading>게시물 목록</MyHeading>
 
       {boardList.length > 0 ? (

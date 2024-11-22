@@ -1,7 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import {
   Box,
-  Container,
   Flex,
   Heading,
   HStack,
@@ -11,7 +10,7 @@ import {
   Stack,
   Textarea,
 } from "@chakra-ui/react";
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { Field } from "../../components/ui/field.jsx";
 import { Button } from "../../components/ui/button.jsx";
@@ -27,9 +26,10 @@ import {
   DialogTrigger,
 } from "../../components/ui/dialog.jsx";
 import { AuthenticationContext } from "../../components/context/AuthenticationProvider.jsx";
-import { CommentContainer } from "../../components/Comment/CommentContainer.jsx";
-import { GoStar, GoStarFill } from "react-icons/go";
+import { CommentContainer } from "../../components/comment/CommentContainer.jsx";
+import { GoHeart, GoHeartFill } from "react-icons/go";
 import { ToggleTip } from "../../components/ui/toggle-tip.jsx";
+import { MyHeading } from "../../components/root/MyHeading.jsx";
 
 function ImageFileView({ files }) {
   return (
@@ -38,8 +38,8 @@ function ImageFileView({ files }) {
         <Image
           key={file.name}
           src={file.src}
+          my={3}
           border={"1px solid black"}
-          m={3}
         />
       ))}
     </Box>
@@ -50,7 +50,7 @@ export function BoardView() {
   const { id } = useParams();
   const [board, setBoard] = useState(null);
   const [like, setLike] = useState({ like: false, count: 0 });
-  const [likeToolTipOpen, setLikeToolTipOpen] = useState(false);
+  const [likeTooltipOpen, setLikeTooltipOpen] = useState(false);
   const navigate = useNavigate();
   const { hasAccess, isAuthenticated } = useContext(AuthenticationContext);
 
@@ -68,6 +68,7 @@ export function BoardView() {
   if (board === null) {
     return <Spinner />;
   }
+
   const handleDeleteClick = () => {
     axios
       .delete(`/api/board/delete/${board.id}`)
@@ -99,59 +100,64 @@ export function BoardView() {
         .catch()
         .finally();
     } else {
-      //tooltip 보여주기
-      setLikeToolTipOpen(!likeToolTipOpen);
+      // tooltip 보여주기
+      setLikeTooltipOpen(!likeTooltipOpen);
     }
   };
 
   return (
-    <Box>
+    <Box
+      mx={"auto"}
+      w={{
+        md: "500px",
+      }}
+    >
       <Flex>
-        <Heading me={"auto"}>{id} 번 게시물</Heading>
+        <MyHeading me={"auto"}>{id} 번 게시물</MyHeading>
       </Flex>
       <Stack gap={5}>
         <Field label="제목" readOnly>
           <Input value={board.title} />
         </Field>
+        <Field label="본문" readOnly>
+          <Textarea h={250} value={board.content} />
+        </Field>
+        <ImageFileView files={board.fileList} />
         <Field label="작성자" readOnly>
           <Input value={board.writer} />
         </Field>
-        <Field label="본문" readOnly>
-          <Textarea value={board.content} />
-        </Field>
-        <ImageFileView files={board.fileList} />
-
-        {/*좋아요*/}
-        <Container>
-          <HStack>
-            <Box onClick={handleLikeClick}>
-              <ToggleTip
-                open={likeToolTipOpen}
-                content={"로그인 후 좋아요를 클릭해 주세요"}
-              >
-                <Heading size="3xl">
-                  {like.like || <GoStar />}
-                  {like.like && <GoStarFill />}
-                </Heading>
-              </ToggleTip>
-            </Box>
-            <Box>
-              <Heading>{like.count}</Heading>
-            </Box>
-            <p>추천</p>
-          </HStack>
-        </Container>
-
-        <hr />
         <Field label="작성일시" readOnly>
           <Input value={board.inserted} type={"datetime-local"} />
         </Field>
-
-        {hasAccess(board.writer) && (
+        <HStack>
+          <Box onClick={handleLikeClick}>
+            <ToggleTip
+              open={likeTooltipOpen}
+              content={"로그인 후 좋아요를 클릭해주세요."}
+            >
+              <Heading>
+                {like.like || <GoHeart color={"red"} />}
+                {like.like && <GoHeartFill color={"red"} />}
+              </Heading>
+            </ToggleTip>
+          </Box>
           <Box>
+            <Heading>{like.count}</Heading>
+          </Box>
+        </HStack>
+        {hasAccess(board.writer) && (
+          <HStack>
+            <Box mx={"auto"}></Box>
+            <Button
+              size={"sm"}
+              colorPalette={"cyan"}
+              onClick={() => navigate(`/edit/${board.id}`)}
+            >
+              수정
+            </Button>
             <DialogRoot>
               <DialogTrigger asChild>
-                <Button colorPalette={"red"} variant={"outline"}>
+                <Button size={"sm"} colorPalette={"red"}>
                   삭제
                 </Button>
               </DialogTrigger>
@@ -172,18 +178,12 @@ export function BoardView() {
                 </DialogFooter>
               </DialogContent>
             </DialogRoot>
-
-            <Button
-              colorPalette={"cyan"}
-              onClick={() => navigate(`/edit/${board.id}`)}
-            >
-              수정
-            </Button>
-          </Box>
+          </HStack>
         )}
       </Stack>
 
       <hr />
+
       <CommentContainer boardId={board.id} />
     </Box>
   );
