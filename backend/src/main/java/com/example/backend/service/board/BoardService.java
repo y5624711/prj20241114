@@ -121,6 +121,8 @@ public class BoardService {
         mapper.deleteFileByBoardId(id);
         //댓글 지우기
         commentMapper.deleteByBoard(id);
+        //좋아요 지우기
+        mapper.deleteLikeByBoardId(id);
         int cnt = mapper.deleteById(id);
         return cnt == 1;
     }
