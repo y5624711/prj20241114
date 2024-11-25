@@ -43,7 +43,7 @@ export function Navbar() {
           <Text hideBelow={"sm"}>작성</Text>
         </NavbarItem>
       )}
-      <Box mx={"auto"}></Box>
+      j<Box mx={"auto"}></Box>
       {isAuthenticated || (
         <NavbarItem onClick={() => navigate("/member/signup")}>
           <Icon hideFrom={"sm"}>
@@ -60,7 +60,6 @@ export function Navbar() {
           <Text hideBelow={"sm"}>회원목록</Text>
         </NavbarItem>
       )}
-
       {isAuthenticated || (
         <NavbarItem onClick={() => navigate("/member/login")}>
           <Icon hideFrom={"sm"}>
