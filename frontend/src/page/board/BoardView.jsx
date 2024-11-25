@@ -129,61 +129,63 @@ export function BoardView() {
         <Field label="작성일시" readOnly>
           <Input value={board.inserted} type={"datetime-local"} />
         </Field>
+
         <HStack>
-          <Box onClick={handleLikeClick}>
-            <ToggleTip
-              open={likeTooltipOpen}
-              content={"로그인 후 좋아요를 클릭해주세요."}
-            >
-              <Heading>
-                {like.like || <GoHeart color={"red"} />}
-                {like.like && <GoHeartFill color={"red"} />}
-              </Heading>
-            </ToggleTip>
-          </Box>
           <Box>
-            <Heading>{like.count}</Heading>
+            <HStack>
+              <Box onClick={handleLikeClick}>
+                <ToggleTip
+                  open={likeTooltipOpen}
+                  content={"로그인 후 좋아요를 클릭해주세요."}
+                >
+                  <Heading>
+                    {like.like || <GoHeart color={"red"} />}
+                    {like.like && <GoHeartFill color={"red"} />}
+                  </Heading>
+                </ToggleTip>
+              </Box>
+              <Box>
+                <Heading>{like.count}</Heading>
+              </Box>
+            </HStack>
           </Box>
-        </HStack>
-        {hasAccess(board.writer) && (
-          <HStack>
-            <Box mx={"auto"}></Box>
-            <Button
-              size={"sm"}
-              colorPalette={"cyan"}
-              onClick={() => navigate(`/edit/${board.id}`)}
-            >
-              수정
-            </Button>
-            <DialogRoot>
-              <DialogTrigger asChild>
-                <Button size={"sm"} colorPalette={"red"}>
-                  삭제
-                </Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>삭제 확인</DialogTitle>
-                </DialogHeader>
-                <DialogBody>
-                  <p>{board.id}번 게시물을 삭제하시겠습니까?</p>
-                </DialogBody>
-                <DialogFooter>
-                  <DialogActionTrigger>
-                    <Button variant={"outline"}>취소</Button>
-                  </DialogActionTrigger>
-                  <Button colorPalette={"red"} onClick={handleDeleteClick}>
+          {hasAccess(board.writer) && (
+            <HStack>
+              <Box mr={300}></Box>
+              <Button
+                size={"sm"}
+                colorPalette={"cyan"}
+                onClick={() => navigate(`/edit/${board.id}`)}
+              >
+                수정
+              </Button>
+              <DialogRoot>
+                <DialogTrigger asChild>
+                  <Button size={"sm"} colorPalette={"red"}>
                     삭제
                   </Button>
-                </DialogFooter>
-              </DialogContent>
-            </DialogRoot>
-          </HStack>
-        )}
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>삭제 확인</DialogTitle>
+                  </DialogHeader>
+                  <DialogBody>
+                    <p>{board.id}번 게시물을 삭제하시겠습니까?</p>
+                  </DialogBody>
+                  <DialogFooter>
+                    <DialogActionTrigger>
+                      <Button variant={"outline"}>취소</Button>
+                    </DialogActionTrigger>
+                    <Button colorPalette={"red"} onClick={handleDeleteClick}>
+                      삭제
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </DialogRoot>
+            </HStack>
+          )}
+        </HStack>
       </Stack>
-
-      <hr />
-
       <CommentContainer boardId={board.id} />
     </Box>
   );

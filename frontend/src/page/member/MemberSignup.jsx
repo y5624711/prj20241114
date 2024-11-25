@@ -5,6 +5,7 @@ import { useState } from "react";
 import axios from "axios";
 import { toaster } from "../../components/ui/toaster.jsx";
 import { useNavigate } from "react-router-dom";
+import { MyHeading } from "../../components/root/MyHeading.jsx";
 
 export function MemberSignup() {
   const [id, setId] = useState("");
@@ -106,11 +107,16 @@ export function MemberSignup() {
   let emailCheckButtonDisabled = email.length === 0;
 
   return (
-    <Box>
-      <h3>회원가입</h3>
+    <Box
+      mx={"auto"}
+      w={{
+        md: "500px",
+      }}
+    >
+      <MyHeading>회원 가입</MyHeading>
       <Stack gap={5}>
         <Field label={"아이디"}>
-          <Group attached w={"40%"}>
+          <Group attached>
             <Input
               value={id}
               onChange={(e) => {
@@ -124,7 +130,7 @@ export function MemberSignup() {
           </Group>
         </Field>
         <Field label={"이메일"}>
-          <Group attached w={"40%"}>
+          <Group attached>
             <Input
               value={email}
               onChange={(e) => {
@@ -159,6 +165,7 @@ export function MemberSignup() {
         </Field>
         <Field label={"자기소개"}>
           <Textarea
+            h={250}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />

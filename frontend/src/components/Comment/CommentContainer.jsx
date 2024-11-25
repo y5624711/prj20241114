@@ -65,7 +65,7 @@ export function CommentContainer({ boardId }) {
 
   return (
     <Box my={10}>
-      <Stack gap={5}>
+      <Stack>
         <HStack>
           <MyHeading>댓글</MyHeading>
           <Text mb={7} fontSize={"lx"}>
